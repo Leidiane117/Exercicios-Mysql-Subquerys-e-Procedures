@@ -3,7 +3,7 @@
 
 ## Arquivos
 
-* SUCO_VENDAS.SQL - Arquivo contendo o script do banco de dados Suco Vendas em formato Sql
+* SUCO_VENDAS.sql - Arquivo contendo o script do banco de dados Suco Vendas em formato Sql
 
 * exercícios subquerys BD Suco Vendas - Arquivo contendo exercícios de subquerys com respostas utilizando o banco de dados Suco Vendas
 
