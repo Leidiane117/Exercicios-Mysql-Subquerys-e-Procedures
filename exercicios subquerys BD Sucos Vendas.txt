@@ -1,10 +1,6 @@
 ﻿Exercícios subquery Banco de Dados Sucos Vendas
 
 
-*Quando tem exists, por atributo e view tem que usar o inner join(ligar chave primaria com estrangeira)
-
-
-
 ==Subquery por valor==
 /*1. Desenvolva o comando para pesquisa os dados da tabela de notas fiscal. Faça outro comando para ser utilizado com subquery que retorne o CPF dos clientes que moram na cidade de São Paulo e sua data de nascimento seja maior igual a 01/09/1990, use esse comando para realizar o filtro na query principal(Tabela de Notas Fiscais).*/
 
@@ -20,7 +16,7 @@ FROM tabela_de_clientes
  WHERE tabela_de_clientes.DATA_DE_NASCIMENTO>='1990/09/01'  AND tabela_de_clientes.CIDADE='São Paulo'
 )
 
-Total =19 registros. OK
+
 
 /*2. Desenvolva o comando para pesquisa os dados da tabela de itens das notas fiscal. Faça outro comando para ser utilizado com subquery que retorne o código do produto dos produtos que possuem embalagem PET tamanho 2 Litros e o saber seja Açaí ou Laranja, use esse comando para realizar o filtro na query principal(Tabela de Itens da Notas Fiscais).*/
 
@@ -39,8 +35,6 @@ AND (tabela_de_produtos.SABOR='Açaí' OR tabela_de_produtos.SABOR='Laranja')
 )
 
 
-total 11 registros
-
 
 /*3. Desenvolva o comando para pesquisa os dados da tabela de notas fiscal com data de venda maior que 01/01/2015 e imposto maior que 0,11. Faça outro comando para ser utilizado com subquery que retorne matricula dos funcionários que foram admitidos entre 2014 e 2016, use esse comando para realizar o filtro na query principal(Tabela de Notas Fiscais).*/
 
@@ -54,8 +48,6 @@ WHERE notas_fiscais.DATA_VENDA>'2015/01/01' AND notas_fiscais.IMPOSTO>0.1 IN
 FROM tabela_de_vendedores
 WHERE tabela_de_vendedores.DATA_ADMISSAO BETWEEN '2014/01/01' AND '2016/12/31'
 )
-
-
 
 
 
@@ -77,14 +69,6 @@ OR tabela_de_produtos.SABOR='Açai')
 
 
 GROUP BY itens_notas_fiscais.NUMERO
-
-total  12 registros
-
-
-
-
-
-
 
 
 /*5. Desenvolva o comando para pesquisa o número e soma das quantidades, cuja a soma seja maior que 100 dos itens das notas fiscais. Faça outro comando para ser utilizado com subquery que retorne o código do produto dos produtos que possuem embalagem Garrafa tamanho 700 ML ou 2 Litros e o sabor seja Uva ou Cereja, use esse comando para realizar o filtro na query principal(Tabela de Itens da Notas Fiscais).*/
@@ -130,8 +114,6 @@ WHERE tabela_de_produtos.EMBALAGEM='PET'
 
 
 
-
-
  
 ==Subquery como verificação==
 /*1. Desenvolva o comando para pesquisar os dados dos vendedores que realizam vendas em nossa loja*/
@@ -146,10 +128,6 @@ WHERE  EXISTS
 FROM notas_fiscais
 WHERE notas_fiscais.MATRICULA= tabela_de_vendedores.MATRICULA
 )
-
-
-
-
 
 
 
@@ -187,8 +165,6 @@ GROUP BY tabela_de_clientes.CPF
 
 
 
-
-
 /*2. Desenvolvao o comando necessário para realizar a pesquisa dos seguintes dados:
 O nome do vendedor;
 O total de vendas;*/
@@ -204,7 +180,6 @@ SELECT  tabela_de_vendedores.NOME,
 FROM tabela_de_vendedores
 
 GROUP BY tabela_de_vendedores.NOME
-
 
 
 
