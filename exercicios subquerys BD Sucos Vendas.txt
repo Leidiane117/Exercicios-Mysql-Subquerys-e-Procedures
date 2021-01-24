@@ -1,0 +1,231 @@
+﻿Exercícios subquery Banco de Dados Sucos Vendas
+
+
+*Quando tem exists, por atributo e view tem que usar o inner join(ligar chave primaria com estrangeira)
+
+
+
+==Subquery por valor==
+/*1. Desenvolva o comando para pesquisa os dados da tabela de notas fiscal. Faça outro comando para ser utilizado com subquery que retorne o CPF dos clientes que moram na cidade de São Paulo e sua data de nascimento seja maior igual a 01/09/1990, use esse comando para realizar o filtro na query principal(Tabela de Notas Fiscais).*/
+
+
+SELECT 
+ *
+ FROM notas_fiscais // tabela 1
+ 
+ WHERE notas_fiscais.CPF IN // coluna 1							
+  
+(SELECT tabela_de_clientes.CPF
+FROM tabela_de_clientes  
+ WHERE tabela_de_clientes.DATA_DE_NASCIMENTO>='1990/09/01'  AND tabela_de_clientes.CIDADE='São Paulo'
+)
+
+Total =19 registros. OK
+
+/*2. Desenvolva o comando para pesquisa os dados da tabela de itens das notas fiscal. Faça outro comando para ser utilizado com subquery que retorne o código do produto dos produtos que possuem embalagem PET tamanho 2 Litros e o saber seja Açaí ou Laranja, use esse comando para realizar o filtro na query principal(Tabela de Itens da Notas Fiscais).*/
+
+
+
+SELECT 
+ *
+FROM itens_notas_fiscais
+WHERE itens_notas_fiscais.CODIGO_DO_PRODUTO IN	 
+(
+SELECT tabela_de_produtos.CODIGO_DO_PRODUTO
+FROM tabela_de_produtos
+WHERE tabela_de_produtos.EMBALAGEM='PET' 
+AND tabela_de_produtos.TAMANHO='2 Litros' 
+AND (tabela_de_produtos.SABOR='Açaí' OR tabela_de_produtos.SABOR='Laranja')
+)
+
+
+total 11 registros
+
+
+/*3. Desenvolva o comando para pesquisa os dados da tabela de notas fiscal com data de venda maior que 01/01/2015 e imposto maior que 0,11. Faça outro comando para ser utilizado com subquery que retorne matricula dos funcionários que foram admitidos entre 2014 e 2016, use esse comando para realizar o filtro na query principal(Tabela de Notas Fiscais).*/
+
+SELECT notas_fiscais.MATRICULA
+			 
+FROM notas_fiscais
+
+WHERE notas_fiscais.DATA_VENDA>'2015/01/01' AND notas_fiscais.IMPOSTO>0.1 IN
+
+(SELECT  tabela_de_vendedores.MATRICULA 
+FROM tabela_de_vendedores
+WHERE tabela_de_vendedores.DATA_ADMISSAO BETWEEN '2014/01/01' AND '2016/12/31'
+)
+
+
+
+
+
+/*4. Desenvolva o comando para pesquisa o número e soma das quantidades dos itens das notas fiscais. Faça outro comando para ser utilizado com subquery que retorne o código do produto dos produtos que possuem embalagem Garrafa tamanho 700 ML ou 2 Litros e o sabor seja Açaí ou Laranja, use esse comando para realizar o filtro na query principal(Tabela de Itens da Notas Fiscais).*/
+
+
+SELECT itens_notas_fiscais.NUMERO,
+			itens_notas_fiscais.CODIGO_DO_PRODUTO,
+SUM(itens_notas_fiscais.QUANTIDADE) AS 'QDT_ITENS'
+ 
+FROM itens_notas_fiscais INNER JOIN 
+WHERE itens_notas_fiscais.CODIGO_DO_PRODUTO IN 
+(SELECT tabela_de_produtos.CODIGO_DO_PRODUTO 
+FROM tabela_de_produtos
+WHERE (tabela_de_produtos.EMBALAGEM='Garrafa' AND (tabela_de_produtos.TAMANHO='700 ml'
+OR (tabela_de_produtos.TAMANHO='2 Litros') AND( tabela_de_produtos.SABOR='Laranja' 
+OR tabela_de_produtos.SABOR='Açai')
+)
+
+
+GROUP BY itens_notas_fiscais.NUMERO
+
+total  12 registros
+
+
+
+
+
+
+
+
+/*5. Desenvolva o comando para pesquisa o número e soma das quantidades, cuja a soma seja maior que 100 dos itens das notas fiscais. Faça outro comando para ser utilizado com subquery que retorne o código do produto dos produtos que possuem embalagem Garrafa tamanho 700 ML ou 2 Litros e o sabor seja Uva ou Cereja, use esse comando para realizar o filtro na query principal(Tabela de Itens da Notas Fiscais).*/
+
+SELECT itens_notas_fiscais.NUMERO,
+			itens_notas_fiscais.CODIGO_DO_PRODUTO,
+SUM(itens_notas_fiscais.QUANTIDADE) AS 'QDT_ITENS'
+ 
+FROM itens_notas_fiscais 		group by itens_notas_fiscais.NUMERO
+having SUM(i.quantidade)>100;	
+ )
+WHERE itens_notas_fiscais.CODIGO_DO_PRODUTO IN 
+(SELECT tabela_de_produtos.CODIGO_DO_PRODUTO 
+FROM tabela_de_produtos
+WHERE tabela_de_produtos.EMBALAGEM='Garrafa' AND tabela_de_produtos.TAMANHO='700 ml' 
+OR tabela_de_produtos.TAMANHO='2 Litros' AND tabela_de_produtos.SABOR='Uva' 
+OR tabela_de_produtos.SABOR='Cereja'
+)
+
+
+GROUP BY itens_notas_fiscais.NUMERO
+having SUM(itens_notas_fiscais.quantidade)>50;
+
+/*6. Desenvolvao o comando necessário para realizar a pesquisa dos seguintes dados:
+ Número da nota fiscal;
+ O código do produto;
+ A quantidade;
+ O preço;
+ Dos produtos que sua embalagem seja PET.
+ Utilize os conceito de subquery por valor;*/
+
+SELECT itens_notas_fiscais.NUMERO,
+		 itens_notas_fiscais.CODIGO_DO_PRODUTO,
+		 itens_notas_fiscais.PRECO,
+		 itens_notas_fiscais.QUANTIDADE
+FROM itens_notas_fiscais
+ 
+WHERE itens_notas_fiscais.CODIGO_DO_PRODUTO IN 
+(SELECT tabela_de_produtos.CODIGO_DO_PRODUTO 
+FROM tabela_de_produtos
+WHERE tabela_de_produtos.EMBALAGEM='PET' 
+)
+
+
+
+
+
+ 
+==Subquery como verificação==
+/*1. Desenvolva o comando para pesquisar os dados dos vendedores que realizam vendas em nossa loja*/
+
+SELECT *
+	FROM tabela_de_vendedores 
+ 
+
+WHERE  EXISTS 
+
+(SELECT notas_fiscais.MATRICULA
+FROM notas_fiscais
+WHERE notas_fiscais.MATRICULA= tabela_de_vendedores.MATRICULA
+)
+
+
+
+
+
+
+
+/*2. Desenvolva o comando para pesquisar os dados dos produtos que não foram vendidos em nossa loja*/
+
+SELECT *
+	FROM tabela_de_produtos 
+ 
+
+WHERE NOT EXISTS 
+
+(SELECT itens_notas_fiscais.CODIGO_DO_PRODUTO
+FROM itens_notas_fiscais
+WHERE itens_notas_fiscais.CODIGO_DO_PRODUTO= tabela_de_produtos.CODIGO_DO_PRODUTO
+)
+
+
+==Subquery como atributo==
+/*1. Desenvolva o comando necessário para realizar a pesquisa dos seguintes dados:
+Cpf do cliente;
+Nome do clinte;
+Quantidade de produtos comprados pelo cliente;
+Para a construção do comando utilize os conceito de subquery como atributo na query principal.*/
+
+
+SELECT  tabela_de_clientes.CPF, 
+			
+ (SELECT SUM(notas_fiscais.CPF)
+    FROM notas_fiscais 
+ WHERE notas_fiscais.CPF=tabela_de_clientes.CPF)
+
+FROM tabela_de_clientes
+
+GROUP BY tabela_de_clientes.CPF
+
+
+
+
+
+/*2. Desenvolvao o comando necessário para realizar a pesquisa dos seguintes dados:
+O nome do vendedor;
+O total de vendas;*/
+
+
+
+SELECT  tabela_de_vendedores.NOME, 
+			
+			(SELECT SUM(notas_fiscais.MATRICULA)
+					FROM notas_fiscais 
+ 				WHERE notas_fiscais.MATRICULA=tabela_de_vendedores.MATRICULA)
+
+FROM tabela_de_vendedores
+
+GROUP BY tabela_de_vendedores.NOME
+
+
+
+
+==Subquery como view==
+/*1. Desenvolvao o comando necessário para realizar a pesquisa dos seguintes dados:
+O nome do cliente;
+A idade do cliente;
+E o valor gasto em compras pelo cliente;
+Utilize o conceito de subquery com VIEW;
+Construa uma VIEW chamada x (select no from como tabela) com os seguintes campos: da nota fiscal o cpf, do itens da nota a soma do preco (Faça um join entre notas_fiscais e itens_notas_fiscais).
+Agora faça a liguação do VIEW com a query principal atraves do campo CPF.
+Na apresentação das informações da query principal arrende o valor gasto pelo cliente com duas casas decimais.*/
+
+SELECT c.NOME,
+	c.IDADE,
+	round(x.total,2)		
+FROM tabela_de_clientes c,
+(
+SELECT n.CPF,
+	SUM(i.PRECO*i.QUANTIDADE) AS total
+FROM notas_fiscais n
+INNER JOIN itens_notas_fiscais i ON (n.NUMERO= i.NUMERO)
+GROUP By n.CPF) x
+WHERE c.CPF=x.CPF
