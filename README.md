@@ -19,3 +19,5 @@
 * Notepad ++ - Como editor de texto
 
 * Mysql - Como sistema gerenciador de banco de dados
+
+* Windows 10 - Como sistema operacional
