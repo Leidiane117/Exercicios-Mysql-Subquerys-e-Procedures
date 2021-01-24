@@ -12,10 +12,10 @@
 
 ## Ferramentas Utilizadas
 
-*HeidSql - Como ferramenta gráfica para banco de dados Myql
+* HeidSql - Como ferramenta gráfica para banco de dados Myql
 
-*Xamp - Como servidor
+* Xamp - Como servidor
 
-*Notepad ++ - Como editor de texto
+* Notepad ++ - Como editor de texto
 
-*Mysql - Como sistema gerenciador de banco de dados
+* Mysql - Como sistema gerenciador de banco de dados
