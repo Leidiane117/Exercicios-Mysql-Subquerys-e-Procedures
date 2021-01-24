@@ -1,0 +1,476 @@
+1.	Faça uma procedure para ler um número inteiro e informar se este número é par ou ímpar.
+
+DROP PROCEDURE IF EXISTS par_impar;
+delimiter $ 
+Create Procedure par_impar(in numero INT)
+BEGIN
+if numero%2=0 then  
+ SELECT 'Este número é par';
+ELSE
+ SELECT 'Este número é ímpar'; 
+END if;
+END$
+
+
+
+2.	Faça uma procedure para ler duas variáveis inteiras A e B e garantir que A e B fiquem em ordem crescente, ou seja, a variável A deverá armazenar o menor valor fornecido e a variável B o maior.
+
+DROP PROCEDURE IF EXISTS maior_menor;
+delimiter $ 
+Create Procedure maior_menor(in numberA INT, IN numberB int)
+BEGIN
+if numberA>numberB  then 
+ SELECT   numberB, numberA;
+ELSE
+ SELECT  numberA,  numberB; 
+END if;
+END$
+
+
+
+CALL maior_menor(10,2);
+CALL maior_menor(2,10);
+
+
+
+3.	Elabore uma procedure para testar se uma senha digita é igual a “MinhaSenha”. Se a senha estiver correta escreva “Acesso permitido”, do contrário emita a mensagem “Você não tem acesso ao sistema”.
+
+DROP PROCEDURE IF EXISTS senha_digital;
+delimiter $ 
+Create Procedure senha_digital(in senha CHAR(12))
+BEGIN
+if senha!= 'MinhaSenha' then 
+ SELECT   'Você não tem acesso ao sistema' ;
+ELSE
+ SELECT  'Acesso permitido'; 
+END if;
+END$
+
+
+
+CALL senha_digital(1);
+CALL senha_digital('MinhaSenha');
+
+
+
+
+
+4.	Desenvolva uma procedure que receba o dia da semana (número) e informe o dia da semana (literal).
+DIA	DESCRIÇÃO
+1	Segunda-Feira
+2	Terça-Feira
+3	Quarta-Feira
+4	Quinta-feira
+5	Sexta-Feira
+6	Sábado
+7	Domingo
+
+
+
+
+DROP PROCEDURE IF EXISTS dia_semana;
+delimiter $ 
+Create Procedure dia_semana(in numeroDia int)
+BEGIN
+case 
+when numeroDia =1 then  SELECT   ' Segunda Feira' ;
+when numeroDia =2 then  SELECT   ' Terça Feira' ;
+when numeroDia =3 then  SELECT   ' Quarta Feira' ;
+when numeroDia =4 then  SELECT   ' Quinta Feira' ;
+when numeroDia =5 then  SELECT   ' Sexta Feira' ;
+when numeroDia =6 then  SELECT   ' Sábado Feira' ;
+when numeroDia =7 then  SELECT   ' Domingo' ;
+ELSE
+SELECT  ' Número inválido'; 
+END case;
+END$
+
+
+
+CALL dia_semana(1);
+CALL dia_semana(2);
+
+CALL dia_semana(3);
+CALL dia_semana(4);
+
+
+CALL dia_semana(5);
+CALL dia_semana(6);
+
+CALL dia_semana(7);
+CALL dia_semana(16);
+
+
+5.	Faça uma procedure para ler um salário e atualizá-lo de acordo com a tabela abaixo.
+FAIXA SALARIAL	AUMENTO
+Até 600,00			30%
+600,01 a 1.100,00	25%
+1100,01 a 2.400,00	20%
+2400,01 a 3.550,00	15%
+Acima de 3.550,00	10%
+
+
+
+DROP PROCEDURE IF EXISTS salario_atualizar;
+delimiter $ 
+Create Procedure salario_atualizar(in salario double)
+BEGIN
+if salario<=600.00
+ then 
+SELECT  0.30*salario+salario;
+
+ elseif salario between 600.01 AND 1100.00
+then 
+
+SELECT 0.25*salario+salario;
+
+elseif salario between 1100.01 AND 2400.00
+ then 
+
+
+SELECT 0.20*salario+salario;
+
+elseif salario between 2400.01 AND 3550.00
+then 
+  
+SELECT  0.15*salario+salario;
+
+ELSE
+SELECT 0.10*salario+salario; 
+END if;
+END$
+
+
+
+CALL salario_atualizar(1100.01);
+CALL salario_atualizar(1100);
+
+
+
+6.	De acordo com a tabela abaixo, desenvolva uma procedure que leia um código do produto informado pelo usuário e informe a descrição do lanche.
+CÓDIGO	DESCRIÇÃO DO PRODUTO
+100		X-Salada com coca-cola.
+200		Hot dog com suco de laranja
+300		Sanduiche natural com suco de uva.
+400		Misto Quente com fanta laranja.
+500		Pão com manteiga com café.
+600		Pão com manteiga na chapa com café com leite.
+		Qualquer outro código diferente dos códigos da tabela, informar a mensagem "Código informado inválido."
+
+
+DROP PROCEDURE IF EXISTS codigo_lanche;
+delimiter $ 
+Create Procedure codigo_lanche(in codigo DOUBLE)
+begin
+case 
+when codigo =100 then  SELECT   ' X-Salada com coca-cola ' ;
+when codigo =200 then  SELECT   ' Hot dog com suco de laranja ' ;
+when codigo =300 then  SELECT   ' Sanduiche natural com suco de uva ';
+when codigo =400 then  SELECT   ' Misto Quente com fanta ';
+when codigo =500 then  SELECT   ' Pão com manteiga com café. ';
+when codigo =600 then  SELECT   ' Pão com manteiga na chapa com café com leite.';
+ 
+ELSE
+SELECT 'Código informado inválido.' ; 
+END case;
+END$
+
+
+
+CALL codigo_lanche(1100.01);
+CALL codigo_lanche(100);
+
+
+
+
+
+
+7.	Faça uma procedure que receba um número e mostre uma mensagem caso este número seja maior que 10.
+
+
+
+DROP PROCEDURE IF EXISTS maior_que_dez;
+delimiter $ 
+Create Procedure maior_que_dez(in numero DOUBLE)
+begin
+if numero>10
+ then  SELECT   ' Este número é maior que 10! ' ;
+
+ELSEIF numero=10
+ then  SELECT   ' Este número é 10! ';
+
+
+ELSEIF numero<10
+ then  SELECT   ' Este número é menor que 10! ';
+ 
+ELSE
+SELECT 'Número informado inválido.' ; 
+END if;
+END$
+
+
+
+CALL maior_que_dez(100.00);
+CALL maior_que_dez(10);
+
+
+
+
+
+8.	Escrever uma procedure que leia dois valores inteiros distintos e informe qual é o maior.
+
+DROP PROCEDURE IF EXISTS maior_que;
+delimiter $ 
+Create Procedure maior_que(in numero1 int, IN numero2 int)
+begin
+if numero1>numero2
+ then  SELECT   concat(' O primeiro número é maior que o segundo' ) ;
+
+ELSE
+  SELECT CONCAT ( ' O segundo número  é  maior que o número primeiro ') ;
+END if;
+END$
+
+
+
+CALL maior_que(100,10);
+CALL maior_que(10,50);
+
+
+
+
+9.	Faça uma procedure que receba um número e diga se este número está no intervalo entre 100 e 200.
+
+
+DROP PROCEDURE IF EXISTS intervalo;
+delimiter $ 
+Create Procedure intervalo(in numero1 int)
+begin
+if numero1 BETWEEN 100 AND 200
+ then  SELECT   concat(' Este número está dentro do intervalo 100 e 200' ) ;
+
+ELSE
+  SELECT CONCAT ( '  Este número NÃO está dentro do intervalo 100 e 200 ') ;
+END if;
+END$
+
+
+
+CALL intervalo(1000);
+CALL intervalo(100);
+
+
+10.	Escrever uma procedure que leia o nome e as três notas obtidas por um aluno durante o semestre. Calcular a sua média (aritmética), informar o nome e sua menção aprovado (media >= 7), Reprovado (media <= 5) e Recuperação (media entre 5.1 a 6.9).
+
+DROP PROCEDURE IF EXISTS media_tres_notas;
+delimiter $ 
+Create Procedure media_tres_notas(in nota1 DOUBLE, IN nota2 DOUBLE, IN nota3 double)
+BEGIN
+DECLARE media DOUBLE;
+SET media= (nota1+nota2+nota3)/3;
+if media>=7
+ then  SELECT   concat(' Aprovado ' ) ;
+ELSEIF media BETWEEN 5.1 AND 6.9
+then
+SELECT  ( '  Recuperação ');
+ELSE
+SELECT  ( '  Reprovado ');
+
+END if;
+END$
+
+
+
+CALL media_tres_notas(10,5,5);
+CALL media_tres_notas(5,5,5);
+
+
+11.	Faça uma procedure para ler dois números inteiros e informar se estes números são iguais ou diferentes.
+
+DROP PROCEDURE IF EXISTS dois_numeros;
+delimiter $ 
+Create Procedure dois_numeros(in n1 int, IN n2 int)
+BEGIN
+
+if n1=n2
+ then  SELECT   CONCAT(' Números iguais ' ) ;
+else
+SELECT  ( '  Números diferentes');
+
+END if;
+END$
+
+
+
+CALL dois_numeros(10,5);
+CALL dois_numeros(5,5);
+
+
+12.	Um determinado clube de futebol pretende classificar seus atletas em categorias e para isto ele contratou um programador para criar um programa que executasse esta tarefa. Para isso o clube criou uma tabela que continha a faixa etária do atleta e sua categoria. A tabela está demonstrada abaixo:
+IDADE 		CATEGORIA
+De 05 a 10	Infantil
+De 11 a 15	Juvenil
+De 16 a 20 	Junior
+De 21 a 25 	Profissional
+Construa uma procedure que solicite o nome e a idade de um atleta e imprima a sua categoria.
+DROP PROCEDURE IF EXISTS categoria;
+delimiter $ 
+Create Procedure categoria(in nome VARCHAR(50), IN idade int)
+BEGIN
+
+if idade BETWEEN 5 AND 10
+ then  SELECT   CONCAT( nome, ' CATEGORIA: 	Infantil ' ) ;
+
+
+elseif idade BETWEEN 11 AND 15
+ then  SELECT   CONCAT( nome, ' CATEGORIA: 	Juvenil ' ) ;
+
+
+
+elseif idade BETWEEN 16 AND 20
+ then  SELECT   CONCAT( nome, ' CATEGORIA: 	Jr ' ) ;
+
+
+elseif idade BETWEEN 21 AND 25
+ then  SELECT   CONCAT( nome, ' CATEGORIA: 	Profissional ' ) ;
+
+
+else
+SELECT  ( '  Idade não permitida ');
+
+END if;
+END$
+
+
+
+CALL categoria('Leidiane',25);
+CALL categoria('Noan',50);
+CALL categoria ('Ed',2);
+
+13.	Faça uma procedure que receba o valor da venda informado pelo usuário, e exiba o valor da compra de acordo com as condições de pagamento listadas abaixo:
+1 - Venda a Vista - desconto de 10%
+2 - Venda a Prazo 30 dias - desconto de 5%
+3 - Venda a Prazo 60 dias - mesmo preço
+4 - Venda a Prazo 90 dias - acréscimo de 5%
+5 - Venda com cartão de débito - desconto de 8%
+6 - Venda com cartão de crédito - desconto de 7%
+
+
+
+DROP PROCEDURE IF EXISTS valor_venda_cliente;
+delimiter $ 
+Create Procedure valor_venda_cliente(IN valorVenda double)
+BEGIN
+
+ SELECT   CONCAT( ' Venda a  vista:  ' , valorVenda-valorVenda*0.10 ) ;
+ SELECT   CONCAT( ' Venda a  prazo 30 dias:  ' , valorVenda-valorVenda*0.05 ) ;
+ SELECT   CONCAT( ' Venda a  prazo 60 dias:  ' , valorVenda) ;
+ SELECT   CONCAT( ' Venda a  prazo 90 dias:  ' , valorVenda+valorVenda*0.05 ) ;
+ SELECT   CONCAT( ' Venda a  débito:  ' ,        valorVenda- valorVenda*0.08 ) ;
+ SELECT   CONCAT( ' Venda a  crédito:  ' ,     valorVenda- valorVenda*0.07)  ;
+END$
+
+
+
+CALL valor_venda_cliente(100);
+
+
+14.	Escreva uma procedure que leia o nome de 2 times e o número de gols marcados na partida (para cada time). Escrever o nome do vencedor. Caso não haja vencedor deverá ser impressa a palavra EMPATE.
+
+
+
+DROP PROCEDURE IF EXISTS times;
+delimiter $ 
+Create Procedure times(IN nomeTime1 VARCHAR(50)
+ , IN  golsTime1 INT, IN nomeTime2 VARCHAR(50), IN golsTime2 int)
+BEGIN
+
+if golsTime1>golsTime2 
+ then  SELECT   CONCAT( ' Vencedor:  ' , nomeTime1 ) ;
+
+
+ELSEIF golsTime2>golsTime1 
+ then  SELECT   CONCAT( ' Vencedor: ',  nomeTime2 ) ;
+
+
+else
+SELECT  ( '  Empate ');
+
+END if;
+END$
+
+
+
+CALL times('Corinthians',10,'São Paulo',10);
+CALL times('Santos', 5, 'Palmeiras', 10);
+CALL times ('Flamengo',4, 'Vasco',2);
+
+
+15.	Escreva uma procedure que leia dois valores inteiros e imprimir uma das três mensagens a seguir:
+‘Números iguais’, caso os números sejam iguais
+‘Primeiro é maior’, caso o primeiro seja maior que o segundo;
+‘Segundo maior’, caso o segundo seja maior que o primeiro.
+
+
+DROP PROCEDURE IF EXISTS numeros_iguais;
+delimiter $ 
+Create Procedure numeros_iguais(IN n1 int, IN n2 INT)
+BEGIN
+
+if n1=n2 
+ then  SELECT   CONCAT( ' Números iguais  ' ) ;
+
+
+ELSEIF n1>n2 
+ then  SELECT   CONCAT( ' O primeiro  número é o maior  ' ) ;
+
+
+
+else
+SELECT  ( '  O segundo  numero é o maior ');
+
+END if;
+END$
+
+
+
+CALL numeros_iguais(10,10);
+CALL numeros_iguais(25,10);
+CALL numeros_iguais (250,500);
+
+
+
+
+16.	Desenvolva uma procedure que leia três valores inteiro informado pelo usuário e ao final exiba o maior valor entre eles.
+
+
+
+DROP PROCEDURE IF EXISTS maior_de_tres;
+delimiter $ 
+Create Procedure maior_de_tres(IN n1 int, IN n2 INT, IN n3 int)
+BEGIN
+
+if n1>n2 AND n1>n3
+ then  SELECT   CONCAT( ' O Primeiro número é o marior  ' ) ;
+
+
+ELSEIF n2>n1 AND n2>n3
+ then  SELECT   CONCAT( ' O segundo número é o marior  ' ) ;
+
+
+ELSEIF n3>n2 AND n3>n1
+ then  SELECT   CONCAT( ' O terceiro número é o marior  ' ) ;
+
+
+
+else
+SELECT  ( '  Números iguais ');
+
+END if;
+END$
+
+
+
+CALL maior_de_tres(10,10,10);
+CALL maior_de_tres(25,10,10);
+CALL maior_de_tres (50,250,100);
